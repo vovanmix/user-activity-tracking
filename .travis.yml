@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+    - '4.3'
+script:
+    - echo 'jsHint' && echo -en 'travis_fold:start:script.jsHint\\r'
+    - npm run jsHint -- --failTaskOnError
+    - echo -en 'travis_fold:end:script.jsHint\\r'
+
+    - echo 'test non-webgl' && echo -en 'travis_fold:start:script.test\\r'
+    - npm run test
+    - echo -en 'travis_fold:end:script.test\\r'
+
+# minify
+
+# run test again againts minified version
+
+# run cloc
