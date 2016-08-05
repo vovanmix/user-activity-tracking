@@ -2,16 +2,23 @@
   "name": "user-activity-tracking",
   "version": "0.0.1",
   "private": true,
+  "main": "src/server.js",
   "scripts": {
-    "test": "NODE_ENV=production mocha './tests/**/*.spec.js'",
+    "start": "nodemon ./src/server.js",
+    "start-coffee": "(coffee --compile -o dist --watch &);./node_modules/nodemon/bin/nodemon.js ./dist/server.js",
+    "test": "NODE_ENV=production mocha './tests/**/*.spec.js' --compilers coffee:coffee-script/register",
     "jsHint": "gulp jsHint"
   },
   "dependencies": {},
   "devDependencies": {
+    "async": "^2.0.1",
+    "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "express": "^4.14.0",
+    "lodash": "^4.14.1",
     "mocha": "^3.0.1",
     "node-fixtures": "0.0.1",
+    "nodemon": "^1.10.0",
     "sinon": "^1.17.5"
   }
 }
