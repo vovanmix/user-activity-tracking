@@ -7,8 +7,7 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
-
-var router = require('./app/router');
-app.use('/api/v1', router);
+var initRouter = require('./app/router');
+initRouter(app);
 
 app.listen(port);

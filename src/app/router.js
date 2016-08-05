@@ -1,9 +1,9 @@
-var express = require('express');
 
-var router = express.Router();
+var initRouter = function(app) {
+    app.use('/api/v1', require('./activity/router'));
+    app.use('/api/v1', require('./stats/router'));
 
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
-});
+    app.use(require('./errors/not-found'));
+};
 
-module.exports = router;
+module.exports = initRouter;
