@@ -1,33 +1,36 @@
 var fs = require('fs');
 var _ = require('lodash');
 
-var removeFilesInDir = function(dirPath) {
+var removeFilesInDir = function(dirPath, cb) {
     fs.readdir(dirPath, function(err, files) {
         if (err) {
             process.stdout.write('err 1:' + JSON.stringify(err));
+            cb();
         } else {
             if (files.length > 0) {
                 _.each(files, function(file) {
                     var filePath = dirPath + '/' + file;
-                    fs.stat(filePath, function(err, stats) {
-                        if (err) {
-                            process.stdout.write(
-                                'err2: ' + JSON.stringify(err)
-                            );
-                        } else {
-                            if (stats.isFile()) {
-                                fs.unlink(filePath, function(err) {
-                                    if (err) {
-                                        process.stdout.write(
-                                            'can`t unlink a file: ' +
-                                            JSON.stringify(err)
-                                        );
-                                    }
-                                });
+                    try {
+                        var stats = fs.statSync(filePath);
+                        if (stats.isFile()) {
+                            try {
+                                fs.unlinkSync(filePath);
+                            } catch (err) {
+                                process.stdout.write(
+                                    'can`t unlink a file: ' +
+                                    JSON.stringify(err)
+                                );
                             }
                         }
-                    });
+                    } catch (err) {
+                        process.stdout.write(
+                            'err2: ' + JSON.stringify(err)
+                        );
+                    }
                 });
+                cb();
+            } else {
+                cb();
             }
         }
     });

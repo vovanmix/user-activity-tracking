@@ -13,8 +13,8 @@ var getCurrentLogName = require('../src/app/services/track-service')
     .getCurrentLogName;
 
 
-beforeEach(function() {
-    removeFilesInDir(config.storage);
+beforeEach(function(done) {
+    removeFilesInDir(config.storage, done);
 });
 
 describe('Writing activity logs', function() {
@@ -45,7 +45,7 @@ describe('Writing activity logs', function() {
         };
         var expected = {1: 3, 2: 1};
 
-        expect(actual).to.eq(expected);
+        expect(actual).to.eql(expected);
     });
 
 
@@ -60,7 +60,7 @@ describe('Writing activity logs', function() {
         };
         var expected = {1: 1};
 
-        expect(actual).to.eq(expected);
+        expect(actual).to.eql(expected);
     });
 
 
@@ -75,7 +75,7 @@ describe('Writing activity logs', function() {
         };
         var expected = {1: 3, 2: 2};
 
-        expect(actual).to.eq(expected);
+        expect(actual).to.eql(expected);
     });
 
 });
