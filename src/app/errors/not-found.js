@@ -1,6 +1,6 @@
 function notFound(req, res) {
     res.status(404).json({
-        error: 'not implented'
+        error: 'not implemented'
     });
 }
 
