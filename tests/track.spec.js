@@ -17,6 +17,10 @@ beforeEach(function(done) {
     removeFilesInDir(config.storage, done);
 });
 
+after(function(done) {
+    removeFilesInDir(config.storage, done);
+});
+
 describe('Writing activity logs', function() {
 
     it('gets a correct current log name', function() {

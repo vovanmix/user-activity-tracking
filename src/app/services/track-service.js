@@ -16,8 +16,10 @@ var writeRecord = function(user_id, session_id) {
     if (typeof records[user_id] === 'undefined') {
         records[user_id] = [0, 0];
     }
-    records[user_id][0] ++;
-    records[user_id][1] = session_id;
+    if (records[user_id][1] !== session_id) {
+        records[user_id][0]++;
+        records[user_id][1] = session_id;
+    }
     fs.writeFileSync(filename, JSON.stringify(records), 'utf8');
 };
 
