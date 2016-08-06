@@ -1,3 +1,4 @@
+var fs = require('fs');
 var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('chai-fs'));
@@ -25,26 +26,56 @@ describe('Writing activity logs', function() {
         expect(actual).to.be.equal(expected);
     });
 
+
     it('creates a new file when there is no file', function() {
         writeRecord(1, 2);
-        expect(getCurrentLogName()).to.be.a.file().and.not.empty();
+        var x = expect(getCurrentLogName()).to.be.a.file('file').and.not.empty;
     });
 
 
-    it('increases number of sessions per user', function() {
-        //todo
+    it('increases the number of sessions per user', function() {
+        writeRecord(1, 2);
+        writeRecord(1, 3);
+        writeRecord(1, 4);
+        writeRecord(2, 5);
+        var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
+        var actual = {
+            1: records[1][0],
+            2: records[2][0]
+        };
+        var expected = {1: 3, 2: 1};
+
+        expect(actual).to.eq(expected);
     });
 
 
-    it('does non increase number of sessions' +
+    it('does non increase the number of sessions' +
         ' if called with the same session', function() {
-        //todo
+        writeRecord(1, 2);
+        writeRecord(1, 2);
+        writeRecord(1, 2);
+        var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
+        var actual = {
+            1: records[1][0]
+        };
+        var expected = {1: 1};
+
+        expect(actual).to.eq(expected);
     });
 
 
     it('saves the last session id', function() {
-        //todo
-    });
+        writeRecord(1, 2);
+        writeRecord(2, 2);
+        writeRecord(1, 3);
+        var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
+        var actual = {
+            1: records[1][1],
+            2: records[2][1]
+        };
+        var expected = {1: 3, 2: 2};
 
+        expect(actual).to.eq(expected);
+    });
 
 });

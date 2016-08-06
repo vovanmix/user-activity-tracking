@@ -2,7 +2,7 @@ var path = require('path');
 
 var config = module.exports;
 
-config.root = path.basename(__dirname);
+config.root = path.resolve(__dirname + '/../../');
 
 switch (process.env.NODE_ENV) {
 case 'testing':
