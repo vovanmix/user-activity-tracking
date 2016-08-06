@@ -29,7 +29,7 @@ describe('Writing activity logs', function() {
 
     it('creates a new file when there is no file', function() {
         writeRecord(1, 2);
-        var x = expect(getCurrentLogName()).to.be.a.file('file').and.not.empty;
+        expect(getCurrentLogName()).to.be.a.file('file').and.not.empty('');
     });
 
 

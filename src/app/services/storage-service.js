@@ -4,26 +4,24 @@ var _ = require('lodash');
 var removeFilesInDir = function(dirPath) {
     fs.readdir(dirPath, function(err, files) {
         if (err) {
-            process.stdout.write('');
-            // process.stdout.write('err 1:' + JSON.stringify(err));
+            process.stdout.write('err 1:' + JSON.stringify(err));
         } else {
             if (files.length > 0) {
                 _.each(files, function(file) {
-                    var filePath = dirPath + file;
+                    var filePath = dirPath + '/' + file;
                     fs.stat(filePath, function(err, stats) {
                         if (err) {
-                            process.stdout.write('');
-                            // process.stdout.write(
-                            //     'err2: ' + JSON.stringify(err)
-                            // );
+                            process.stdout.write(
+                                'err2: ' + JSON.stringify(err)
+                            );
                         } else {
                             if (stats.isFile()) {
                                 fs.unlink(filePath, function(err) {
                                     if (err) {
-                                        process.stdout.write('');
-                                        // process.stdout.write(
-                                        //     'err3: ' + JSON.stringify(err)
-                                        // );
+                                        process.stdout.write(
+                                            'can`t unlink a file: ' +
+                                            JSON.stringify(err)
+                                        );
                                     }
                                 });
                             }
