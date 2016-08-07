@@ -14,6 +14,7 @@
     "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "chai-fs": "git://github.com/chaijs/chai-fs.git#20e17a883da572c6afc810f306278335c68ef08a",
+    "dateformat": "^1.0.12",
     "express": "^4.14.0",
     "lockfile": "^1.0.1",
     "lodash": "^4.14.1",
