@@ -17,8 +17,14 @@ var collectStats = function(date_from, date_to, user_id, cb) {
     //todo: more than 25 parallel threads can cause memory problems
 
     var date_from_min = new Date();
+    date_from_min.setHours(0);
+    date_from_min.setMinutes(0);
+    date_from_min.setSeconds(0);
     date_from_min.setFullYear(date_from_min.getFullYear() - YEARS_BACK_MAX);
     var date_to_max = new Date();
+    date_to_max.setHours(23);
+    date_to_max.setMinutes(59);
+    date_to_max.setSeconds(59);
     if (!date_from || date_from < date_from_min) {
         date_from = date_from_min;
     }
