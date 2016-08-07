@@ -41,7 +41,6 @@ describe('Collecting stats', function() {
         var expected = {
             num_sessions: 4,
             unique_users: 2,
-            avg_sessions_per_user: 0,
             users: ['1', '2']
         };
         expect(actual).to.eql(expected);
@@ -57,7 +56,6 @@ describe('Collecting stats', function() {
         var expected = {
             num_sessions: 2,
             unique_users: 1,
-            avg_sessions_per_user: 0,
             users: []
         };
         expect(actual).to.eql(expected);
@@ -76,7 +74,7 @@ describe('Collecting stats', function() {
             var expected = {
                 num_sessions: 8,
                 unique_users: 3,
-                avg_sessions_per_user: 2.66
+                avg_sessions_per_user: 2.67
             };
             expect(actual).to.eql(expected);
             done();
@@ -116,7 +114,7 @@ describe('Collecting stats', function() {
             var expected = {
                 num_sessions: 8,
                 unique_users: 3,
-                avg_sessions_per_user: 2.66
+                avg_sessions_per_user: 2.67
             };
             expect(actual).to.eql(expected);
             done();
@@ -139,7 +137,7 @@ describe('Collecting stats', function() {
             var expected = {
                 num_sessions: 8,
                 unique_users: 3,
-                avg_sessions_per_user: 2.66
+                avg_sessions_per_user: 2.67
             };
             expect(actual).to.eql(expected);
             done();
@@ -231,7 +229,7 @@ describe('Collecting stats', function() {
         data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
         writeFilesForDates(data);
 
-        collectStats(new Date(), data, null, function(actual) {
+        collectStats(new Date(), date, null, function(actual) {
             var expected = {
                 num_sessions: 4,
                 unique_users: 2,
@@ -258,7 +256,7 @@ describe('Collecting stats', function() {
                 var expected = {
                     num_sessions: 1460,
                     unique_users: 3,
-                    avg_sessions_per_user: 486.66
+                    avg_sessions_per_user: 486.67
                 };
                 expect(actual).to.eql(expected);
                 done();

@@ -1,8 +1,9 @@
 var fs = require('fs');
-var config = require('../config');
+var _ = require('lodash');
 var getLogName = require('./track-service').getLogName;
 
 const YEARS_BACK_MAX = 5;
+
 
 /**
  * Collects stats
@@ -12,29 +13,34 @@ const YEARS_BACK_MAX = 5;
  * @param {function} cb
  */
 var collectStats = function(date_from, date_to, user_id, cb) {
-    //todo: make asynchronous with 25 parallel threads
-    config = '';
-    date_from = '';
-    date_to = '';
-    user_id = '';
+    //todo: make asynchronous with up to 25 parallel threads
+    //todo: more than 25 parallel threads can cause memory problems
 
-    if (!date_from) {
-        date_from = new Date();
-        date_from.setFullYear(date_from.getFullYear() - YEARS_BACK_MAX);
+    var date_from_min = new Date();
+    date_from_min.setFullYear(date_from_min.getFullYear() - YEARS_BACK_MAX);
+    var date_to_max = new Date();
+    if (!date_from || date_from < date_from_min) {
+        date_from = date_from_min;
     }
-    if (!date_to) {
-        date_to = new Date();
+    if (!date_to || date_to > date_to_max) {
+        date_to = date_to_max;
     }
 
+    var result = null;
     for (var d = date_from; d <= date_to; d.setDate(d.getDate() + 1)) {
-        getStatsForDate(new Date(d), user_id, cb);
+        result = getStatsForDate(new Date(d), user_id, result);
     }
 
-    return {
-        num_sessions: 0,
-        unique_users: 0,
-        avg_sessions_per_user: 0
-    };
+    var avg = 0;
+    if (result.unique_users > 0) {
+        avg = _.round(result.num_sessions / result.unique_users, 2);
+    }
+
+    cb({
+        num_sessions: result.num_sessions,
+        unique_users: result.unique_users,
+        avg_sessions_per_user: avg
+    });
 };
 
 
@@ -45,21 +51,21 @@ var collectStats = function(date_from, date_to, user_id, cb) {
  * @param {?object=null} result
  */
 var getStatsForDate = function(date, user_id, result) {
+
+    if (!result) {
+        result = {
+            unique_users: 0,
+            num_sessions: 0,
+            users: []
+        };
+    }
+
     var filename = getLogName(date);
     var data;
     try {
         data = JSON.parse(fs.readFileSync(filename, 'utf8'));
     } catch (err) {
         return result;
-    }
-
-    if (!result) {
-        result = {
-            unique_users: 0,
-            num_sessions: 0,
-            avg_sessions_per_user: 0,
-            users: []
-        };
     }
 
     if (user_id) {
