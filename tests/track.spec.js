@@ -110,21 +110,43 @@ describe('Writing activity logs', function() {
     it('works ok with race conditions', function(done) {
         async.parallel([
             function(callback) { writeRecord(1, 1, callback); },
-            function(callback) { writeRecord(1, 2, callback); },
-            function(callback) { writeRecord(1, 3, callback); },
-            function(callback) { writeRecord(1, 4, callback); },
-            function(callback) { writeRecord(1, 5, callback); },
-            function(callback) { writeRecord(1, 6, callback); },
-            function(callback) { writeRecord(1, 7, callback); },
-            function(callback) { writeRecord(1, 8, callback); },
-            function(callback) { writeRecord(1, 9, callback); },
-            function(callback) { writeRecord(1, 10, callback); }
+            function(callback) { writeRecord(2, 2, callback); },
+            function(callback) { writeRecord(3, 3, callback); },
+            function(callback) { writeRecord(4, 4, callback); },
+            function(callback) { writeRecord(5, 5, callback); },
+            function(callback) { writeRecord(6, 6, callback); },
+            function(callback) { writeRecord(7, 7, callback); },
+            function(callback) { writeRecord(8, 8, callback); },
+            function(callback) { writeRecord(9, 9, callback); },
+            function(callback) { writeRecord(10, 10, callback); }
         ],
             function(err) {
                 if (err) { throw err; }
                 var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
-                var actual = records[1];
-                var expected = [10, 10];
+                var actual = {
+                    1: records[1],
+                    2: records[2],
+                    3: records[3],
+                    4: records[4],
+                    5: records[5],
+                    6: records[6],
+                    7: records[7],
+                    8: records[8],
+                    9: records[9],
+                    10: records[10]
+                };
+                var expected = {
+                    1: [1, 1],
+                    2: [1, 2],
+                    3: [1, 3],
+                    4: [1, 4],
+                    5: [1, 5],
+                    6: [1, 6],
+                    7: [1, 7],
+                    8: [1, 8],
+                    9: [1, 9],
+                    10: [1, 10]
+                };
 
                 expect(actual).to.eql(expected);
                 done();
