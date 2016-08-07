@@ -1,3 +1,4 @@
+var fs = require('fs');
 var config = require('../config');
 var getLogName = require('./track-service').getLogName;
 
@@ -41,12 +42,48 @@ var collectStats = function(date_from, date_to, user_id, cb) {
 /**
  * Collects stats for one day
  * @param {Date} date
- * @param {?string|number} user_id
- * @param {function} cb
+ * @param {?string|?number=null} user_id
+ * @param {?object=null} result
  */
-var getStatsForDate = function(date, user_id, cb) {
-    //todo
-    cb();
+var getStatsForDate = function(date, user_id, result) {
+
+    var filename = getLogName(date);
+    var data;
+    try {
+        data = fs.readFileSync(filename);
+    } catch (err) {
+        return result;
+    }
+
+    if (!result) {
+        result = {
+            unique_users: 0,
+            num_sessions: 0,
+            avg_sessions_per_user: 0,
+            users: []
+        };
+    }
+
+    if (user_id) {
+        if (typeof data[user_id] !== 'undefined') {
+            result.unique_users = 1;
+            result.num_sessions += data[user_id][0];
+            result.avg_sessions_per_user = result.num_sessions;
+        }
+    } else {
+        result = data.reduce(
+            function(total, value, index) {
+                if (total.users.indexOf(index) === -1) {
+                    total.users.push(index);
+                    total.unique_users++;
+                }
+                result.num_sessions += value[0];
+                return result;
+            }, result
+        );
+    }
+
+    return result;
 };
 
 

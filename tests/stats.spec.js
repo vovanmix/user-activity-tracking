@@ -32,37 +32,35 @@ after(function(done) {
 
 describe('Collecting stats', function() {
 
-    it('gets one day stats for all users', function(done) {
+    it('gets one day stats for all users', function() {
         var data = {};
         data[new Date()] = {1: [2, 2], 2: [2, 2]};
         writeFilesForDates(data);
 
-        getStatsForDate(new Date(), null, function(actual) {
-            var expected = {
-                num_sessions: 4,
-                unique_users: 2,
-                avg_sessions_per_user: 2
-            };
-            expect(actual).to.eql(expected);
-            done();
-        });
+        var actual = getStatsForDate(new Date());
+        var expected = {
+            num_sessions: 4,
+            unique_users: 2,
+            avg_sessions_per_user: 2,
+            users: [1, 2]
+        };
+        expect(actual).to.eql(expected);
     });
 
 
-    it('gets one day stats for only one user', function(done) {
+    it('gets one day stats for only one user', function() {
         var data = {};
         data[new Date()] = {1: [2, 2], 2: [2, 2]};
         writeFilesForDates(data);
 
-        getStatsForDate(new Date(), 1, function(actual) {
-            var expected = {
-                num_sessions: 2,
-                unique_users: 1,
-                avg_sessions_per_user: 2
-            };
-            expect(actual).to.eql(expected);
-            done();
-        });
+        var actual = getStatsForDate(new Date(), 1);
+        var expected = {
+            num_sessions: 2,
+            unique_users: 1,
+            avg_sessions_per_user: 2,
+            users: []
+        };
+        expect(actual).to.eql(expected);
     });
 
 
