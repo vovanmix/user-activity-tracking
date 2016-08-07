@@ -45,11 +45,10 @@ var collectStats = function(date_from, date_to, user_id, cb) {
  * @param {?object=null} result
  */
 var getStatsForDate = function(date, user_id, result) {
-
     var filename = getLogName(date);
     var data;
     try {
-        data = fs.readFileSync(filename);
+        data = JSON.parse(fs.readFileSync(filename, 'utf8'));
     } catch (err) {
         return result;
     }
@@ -64,22 +63,22 @@ var getStatsForDate = function(date, user_id, result) {
     }
 
     if (user_id) {
+        user_id = user_id.toString();
         if (typeof data[user_id] !== 'undefined') {
             result.unique_users = 1;
             result.num_sessions += data[user_id][0];
-            result.avg_sessions_per_user = result.num_sessions;
         }
     } else {
-        result = data.reduce(
-            function(total, value, index) {
-                if (total.users.indexOf(index) === -1) {
-                    total.users.push(index);
-                    total.unique_users++;
-                }
-                result.num_sessions += value[0];
-                return result;
-            }, result
-        );
+        result = Object.keys(data).map(function(key) {
+            return {key: key, data: data[key]};
+        }).reduce(function(total, value) {
+            if (total.users.indexOf(value.key) === -1) {
+                total.users.push(value.key);
+                total.unique_users++;
+            }
+            result.num_sessions += value.data[0];
+            return result;
+        }, result);
     }
 
     return result;

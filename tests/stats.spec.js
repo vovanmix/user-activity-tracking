@@ -41,8 +41,8 @@ describe('Collecting stats', function() {
         var expected = {
             num_sessions: 4,
             unique_users: 2,
-            avg_sessions_per_user: 2,
-            users: [1, 2]
+            avg_sessions_per_user: 0,
+            users: ['1', '2']
         };
         expect(actual).to.eql(expected);
     });
@@ -57,7 +57,7 @@ describe('Collecting stats', function() {
         var expected = {
             num_sessions: 2,
             unique_users: 1,
-            avg_sessions_per_user: 2,
+            avg_sessions_per_user: 0,
             users: []
         };
         expect(actual).to.eql(expected);
