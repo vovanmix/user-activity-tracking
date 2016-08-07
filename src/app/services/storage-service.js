@@ -9,7 +9,7 @@ var removeFilesInDir = function(dirPath, cb) {
         } else {
             if (files.length > 0) {
                 _.each(files, function(file) {
-                    if (file === '.gitignore'){
+                    if (file === '.gitignore') {
                         return;
                     }
                     var filePath = dirPath + '/' + file;
