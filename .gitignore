@@ -40,3 +40,5 @@ jspm_packages
 
 storage/*
 mock-storage/*
+!storage/.gitignore
+!mock-storage/.gitignore
