@@ -205,7 +205,7 @@ describe('Collecting stats', function() {
     });
 
 
-    xit('forbids to look back for more than 5 years', function(done) {
+    it('forbids to look back for more than 5 years', function(done) {
         var data = {};
         data[new Date()] = {1: [2, 2], 2: [2, 2]};
         var date = new Date();
@@ -225,7 +225,7 @@ describe('Collecting stats', function() {
     });
 
 
-    xit('forbids to get stats for the future', function(done) {
+    it('forbids to get stats for the future', function(done) {
         var data = {};
         data[new Date()] = {1: [2, 2], 2: [2, 2]};
         var date = new Date();
@@ -245,7 +245,7 @@ describe('Collecting stats', function() {
     });
 
 
-    xit('works ok with many files for a big interval for all users',
+    it('works ok with many files for a big interval for all users',
         function(done) {
             var data = {};
             var date;
