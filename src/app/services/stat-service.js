@@ -12,8 +12,7 @@ const YEARS_BACK_MAX = 5;
  * @param {function} cb
  */
 var collectStats = function(date_from, date_to, user_id, cb) {
-    // config.storage;
-    //todo
+    //todo: make asynchronous with 25 parallel threads
     config = '';
     date_from = '';
     date_to = '';
