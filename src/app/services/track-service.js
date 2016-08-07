@@ -69,7 +69,7 @@ var writeRecordSync = function(user_id, session_id) {
 
 /**
  * Updates the records array and writes it back to the file
- * @param {array} records
+ * @param {object} records
  * @param {string|number} user_id
  * @param {string|number} session_id
  * @param {string} filename
