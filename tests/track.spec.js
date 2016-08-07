@@ -123,18 +123,7 @@ describe('Writing activity logs', function() {
             function(err) {
                 if (err) { throw err; }
                 var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
-                var actual = {
-                    1: records[1],
-                    2: records[2],
-                    3: records[3],
-                    4: records[4],
-                    5: records[5],
-                    6: records[6],
-                    7: records[7],
-                    8: records[8],
-                    9: records[9],
-                    10: records[10]
-                };
+                var actual = records;
                 var expected = {
                     1: [1, 1],
                     2: [1, 2],
