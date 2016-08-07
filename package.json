@@ -16,11 +16,14 @@
     "chai-fs": "git://github.com/chaijs/chai-fs.git#20e17a883da572c6afc810f306278335c68ef08a",
     "dateformat": "^1.0.12",
     "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
     "lockfile": "^1.0.1",
     "lodash": "^4.14.1",
     "mocha": "^3.0.1",
     "node-fixtures": "0.0.1",
     "nodemon": "^1.10.0",
-    "sinon": "^1.17.5"
+    "sinon": "^1.17.5",
+    "yargs": "^4.8.1"
   }
 }
