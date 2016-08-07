@@ -1,5 +1,7 @@
 var config = require('../config');
+var getLogName = require('./track-service').getLogName;
 
+const YEARS_BACK_MAX = 5;
 
 /**
  * Collects stats
@@ -14,6 +16,28 @@ var collectStats = function(date_from, date_to, user_id) {
     date_from = '';
     date_to = '';
     user_id = '';
+
+    if (!date_from) {
+        date_from = new Date();
+        date_from.setFullYear(date_from.getFullYear() - YEARS_BACK_MAX);
+    }
+    if (!date_to) {
+        date_to = new Date();
+    }
+
+    for (var d = date_from; d <= date_to; d.setDate(d.getDate() + 1)) {
+        getStatsForDate(new Date(d), user_id);
+    }
+
+    return {
+        num_sessions: 0,
+        unique_users: 0,
+        avg_sessions_per_user: 0
+    };
+};
+
+var getStatsForDate = function(date, user_id) {
+    //todo
 };
 
 
