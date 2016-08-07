@@ -4,6 +4,7 @@ var expect = chai.expect;
 chai.use(require('chai-fs'));
 
 var dateFormat = require('dateformat');
+var async = require('async');
 
 var config = require('../src/app/config');
 var removeFilesInDir = require('../src/app/services/storage-service')
@@ -18,7 +19,8 @@ beforeEach(function(done) {
 });
 
 after(function(done) {
-    removeFilesInDir(config.storage, done);
+    done();
+    // removeFilesInDir(config.storage, done);
 });
 
 describe('Writing activity logs', function() {
@@ -31,55 +33,78 @@ describe('Writing activity logs', function() {
     });
 
 
-    it('creates a new file when there is no file', function() {
-        writeRecord(1, 2);
-        expect(getCurrentLogName()).to.be.a.file('file').and.not.empty('');
+    it('creates a new file when there is no file', function(done) {
+        writeRecord(1, 2, function() {
+            expect(getCurrentLogName()).to.be.a.file('file').and.not.empty('');
+            done();
+        });
     });
 
 
-    it('increases the number of sessions per user', function() {
-        writeRecord(1, 2);
-        writeRecord(1, 3);
-        writeRecord(1, 4);
-        writeRecord(2, 5);
-        var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
-        var actual = {
-            1: records[1][0],
-            2: records[2][0]
-        };
-        var expected = {1: 3, 2: 1};
+    it('increases the number of sessions per user', function(done) {
+        async.parallel([
+            function(callback) { writeRecord(1, 2, callback); },
+            function(callback) { writeRecord(1, 3, callback); },
+            function(callback) { writeRecord(1, 4, callback); },
+            function(callback) { writeRecord(2, 5, callback); }
+        ],
+            function(err) {
+                if (err) { throw err; }
+                var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
+                var actual = {
+                    1: records[1][0],
+                    2: records[2][0]
+                };
+                var expected = {1: 3, 2: 1};
 
-        expect(actual).to.eql(expected);
+                expect(actual).to.eql(expected);
+                done();
+            }
+        );
     });
 
 
     it('does non increase the number of sessions' +
-        ' if called with the same session', function() {
-        writeRecord(1, 2);
-        writeRecord(1, 2);
-        writeRecord(1, 2);
-        var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
-        var actual = {
-            1: records[1][0]
-        };
-        var expected = {1: 1};
+        ' if called with the same session', function(done) {
+        async.parallel([
+            function(callback) { writeRecord(1, 2, callback); },
+            function(callback) { writeRecord(1, 2, callback); },
+            function(callback) { writeRecord(1, 2, callback); }
+        ],
+            function(err) {
+                if (err) { throw err; }
+                var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
+                var actual = {
+                    1: records[1][0]
+                };
+                var expected = {1: 1};
 
-        expect(actual).to.eql(expected);
+                expect(actual).to.eql(expected);
+                done();
+            }
+        );
     });
 
 
-    it('saves the last session id', function() {
-        writeRecord(1, 2);
-        writeRecord(2, 2);
-        writeRecord(1, 3);
-        var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
-        var actual = {
-            1: records[1][1],
-            2: records[2][1]
-        };
-        var expected = {1: 3, 2: 2};
+    it('saves the last session id', function(done) {
+        async.parallel([
+            function(callback) { writeRecord(1, 2, callback); },
+            function(callback) { writeRecord(2, 2, callback); },
+            function(callback) { writeRecord(1, 3, callback); }
+        ],
+            function(err) {
+                if (err) { throw err; }
+                var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
+                var actual = {
+                    1: records[1][1],
+                    2: records[2][1]
+                };
+                var expected = {1: 3, 2: 2};
 
-        expect(actual).to.eql(expected);
+                expect(actual).to.eql(expected);
+                done();
+            }
+        );
     });
 
 });
