@@ -5,11 +5,12 @@ const YEARS_BACK_MAX = 5;
 
 /**
  * Collects stats
- * @param {Date} date_from
- * @param {Date} date_to
- * @param {string|number} user_id
+ * @param {?Date} date_from
+ * @param {?Date} date_to
+ * @param {?string|number} user_id
+ * @param {function} cb
  */
-var collectStats = function(date_from, date_to, user_id) {
+var collectStats = function(date_from, date_to, user_id, cb) {
     // config.storage;
     //todo
     config = '';
@@ -36,9 +37,20 @@ var collectStats = function(date_from, date_to, user_id) {
     };
 };
 
-var getStatsForDate = function(date, user_id) {
+
+/**
+ * Collects stats for one day
+ * @param {Date} date
+ * @param {?string|number} user_id
+ * @param {function} cb
+ */
+var getStatsForDate = function(date, user_id, cb) {
     //todo
+    cb();
 };
 
 
-module.exports = collectStats;
+module.exports = {
+    collectStats: collectStats,
+    getStatsForDate: getStatsForDate
+};
