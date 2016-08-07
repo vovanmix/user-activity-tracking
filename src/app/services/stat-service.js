@@ -27,7 +27,7 @@ var collectStats = function(date_from, date_to, user_id, cb) {
     }
 
     for (var d = date_from; d <= date_to; d.setDate(d.getDate() + 1)) {
-        getStatsForDate(new Date(d), user_id);
+        getStatsForDate(new Date(d), user_id, cb);
     }
 
     return {
