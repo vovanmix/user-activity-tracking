@@ -10,6 +10,10 @@ var config = require('../config');
 var collectStats = function(date_from, date_to, user_id) {
     // config.storage;
     //todo
+    config = '';
+    date_from = '';
+    date_to = '';
+    user_id = '';
 };
 
 
