@@ -19,8 +19,7 @@ beforeEach(function(done) {
 });
 
 after(function(done) {
-    done();
-    // removeFilesInDir(config.storage, done);
+    removeFilesInDir(config.storage, done);
 });
 
 describe('Writing activity logs', function() {
@@ -100,6 +99,32 @@ describe('Writing activity logs', function() {
                     2: records[2][1]
                 };
                 var expected = {1: 3, 2: 2};
+
+                expect(actual).to.eql(expected);
+                done();
+            }
+        );
+    });
+
+
+    it('works ok with race conditions', function(done) {
+        async.parallel([
+            function(callback) { writeRecord(1, 1, callback); },
+            function(callback) { writeRecord(1, 2, callback); },
+            function(callback) { writeRecord(1, 3, callback); },
+            function(callback) { writeRecord(1, 4, callback); },
+            function(callback) { writeRecord(1, 5, callback); },
+            function(callback) { writeRecord(1, 6, callback); },
+            function(callback) { writeRecord(1, 7, callback); },
+            function(callback) { writeRecord(1, 8, callback); },
+            function(callback) { writeRecord(1, 9, callback); },
+            function(callback) { writeRecord(1, 10, callback); }
+        ],
+            function(err) {
+                if (err) { throw err; }
+                var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
+                var actual = records[1];
+                var expected = [10, 10];
 
                 expect(actual).to.eql(expected);
                 done();

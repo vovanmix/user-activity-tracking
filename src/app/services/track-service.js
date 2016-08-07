@@ -6,8 +6,8 @@ var lockFile = require('lockfile');
 
 /**
  * Writes a track record in asynchronous manner
- * @param {string} user_id
- * @param {string} session_id
+ * @param {string|number} user_id
+ * @param {string|number} session_id
  * @param {function} cb
  */
 var writeRecord = function(user_id, session_id, cb) {
@@ -44,8 +44,8 @@ var writeRecord = function(user_id, session_id, cb) {
 
 /**
  * Writes a track record synchronously
- * @param {string} user_id
- * @param {string} session_id
+ * @param {string|number} user_id
+ * @param {string|number} session_id
  */
 var writeRecordSync = function(user_id, session_id) {
     var filename = getCurrentLogName();
@@ -70,8 +70,8 @@ var writeRecordSync = function(user_id, session_id) {
 /**
  * Updates the records array and writes it back to the file
  * @param {array} records
- * @param {string} user_id
- * @param {string} session_id
+ * @param {string|number} user_id
+ * @param {string|number} session_id
  * @param {string} filename
  * @param {function} cb
  */
@@ -97,8 +97,8 @@ var updateAndWrite = function(records, user_id, session_id, filename, cb) {
  * Updates the records array with info about new user visit
  * and returns the updated array
  * @param {array} records
- * @param {string} user_id
- * @param {string} session_id
+ * @param {string|number} user_id
+ * @param {string|number} session_id
  */
 var updateRecords = function(records, user_id, session_id) {
     user_id = user_id.toString();
