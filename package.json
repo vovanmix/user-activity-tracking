@@ -13,7 +13,7 @@
     "async": "^2.0.1",
     "body-parser": "^1.15.2",
     "chai": "^3.5.0",
-    "chai-fs": "latest",
+    "chai-fs": "git://github.com/chaijs/chai-fs.git#20e17a883da572c6afc810f306278335c68ef08a",
     "express": "^4.14.0",
     "lockfile": "^1.0.1",
     "lodash": "^4.14.1",
