@@ -14,15 +14,16 @@ var getCurrentLogName = require('../src/app/services/track-service')
     .getCurrentLogName;
 
 
-beforeEach(function(done) {
-    removeFilesInDir(config.storage, done);
-});
-
-after(function(done) {
-    removeFilesInDir(config.storage, done);
-});
-
 describe('Writing activity logs', function() {
+
+    beforeEach(function(done) {
+        removeFilesInDir(config.storage, done);
+    });
+
+    after(function(done) {
+        removeFilesInDir(config.storage, done);
+    });
+
 
     it('gets a correct current log name', function() {
         var actual = getCurrentLogName();
@@ -122,8 +123,7 @@ describe('Writing activity logs', function() {
         ],
             function(err) {
                 if (err) { throw err; }
-                var records = JSON.parse(fs.readFileSync(getCurrentLogName()));
-                var actual = records;
+                var actual = JSON.parse(fs.readFileSync(getCurrentLogName()));
                 var expected = {
                     1: [1, 1],
                     2: [1, 2],

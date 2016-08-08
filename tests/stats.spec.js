@@ -1,7 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('chai-fs'));
-var fs = require('fs');
 
 var config = require('../src/app/config');
 
@@ -10,27 +9,19 @@ var removeFilesInDir = require('../src/app/services/storage-service')
 var collectStats = require('../src/app/services/stat-service').collectStats;
 var getStatsForDate = require('../src/app/services/stat-service')
     .getStatsForDate;
-var getLogName = require('../src/app/services/track-service').getLogName;
+var writeFilesForDates = require('./test-helper').writeFilesForDates;
 
-
-function writeFilesForDates(dates) {
-    for (var date in dates) {
-        if (dates.hasOwnProperty(date)) {
-            var filename = getLogName(date);
-            fs.writeFileSync(filename, JSON.stringify(dates[date]), 'utf8');
-        }
-    }
-}
-
-beforeEach(function(done) {
-    removeFilesInDir(config.storage, done);
-});
-
-after(function(done) {
-    removeFilesInDir(config.storage, done);
-});
 
 describe('Collecting stats', function() {
+
+    beforeEach(function(done) {
+        removeFilesInDir(config.storage, done);
+    });
+
+    after(function(done) {
+        removeFilesInDir(config.storage, done);
+    });
+
 
     it('gets one day stats for all users', function() {
         var data = {};
