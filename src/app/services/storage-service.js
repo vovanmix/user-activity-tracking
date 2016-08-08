@@ -29,6 +29,7 @@ var removeFilesInDir = function(dirPath, cb) {
                         process.stdout.write(
                             'err2: ' + JSON.stringify(err)
                         );
+                        cb();
                     }
                 });
                 cb();

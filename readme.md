@@ -1,3 +1,21 @@
+#Start server and test
+Start dev server:
+```
+npm start
+```
+Run tests:
+```
+npm test
+```
+Run linter:
+```
+npm run jsHint
+```
+Run in production:
+```
+forever start ./src/server.js
+```
+
 #Data store format
 - One record line represents user stats for a day, {user id: [sessions per day, last session id]}
 - It occupies around 40 bytes

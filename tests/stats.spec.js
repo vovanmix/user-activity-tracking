@@ -1,7 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('chai-fs'));
-var fs = require('fs');
 
 var config = require('../src/app/config');
 
@@ -10,27 +9,19 @@ var removeFilesInDir = require('../src/app/services/storage-service')
 var collectStats = require('../src/app/services/stat-service').collectStats;
 var getStatsForDate = require('../src/app/services/stat-service')
     .getStatsForDate;
-var getLogName = require('../src/app/services/track-service').getLogName;
+var writeFilesForDates = require('./test-helper').writeFilesForDates;
 
-
-function writeFilesForDates(dates) {
-    for (var date in dates) {
-        if (dates.hasOwnProperty(date)) {
-            var filename = getLogName(date);
-            fs.writeFileSync(filename, JSON.stringify(dates[date]), 'utf8');
-        }
-    }
-}
-
-beforeEach(function(done) {
-    removeFilesInDir(config.storage, done);
-});
-
-after(function(done) {
-    removeFilesInDir(config.storage, done);
-});
 
 describe('Collecting stats', function() {
+
+    beforeEach(function(done) {
+        removeFilesInDir(config.storage, done);
+    });
+
+    after(function(done) {
+        removeFilesInDir(config.storage, done);
+    });
+
 
     it('gets one day stats for all users', function() {
         var data = {};
@@ -126,6 +117,13 @@ describe('Collecting stats', function() {
         var data = {};
         var date = new Date();
         date.setFullYear(date.getFullYear() - 5);
+        data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
+        date = new Date();
+        date.setFullYear(date.getFullYear() - 5);
+        date.setMonth(date.getMonth() + 2);
+        data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
+        date = new Date();
+        date.setFullYear(date.getFullYear() - 3);
         data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
         date = new Date();
         date.setFullYear(date.getFullYear() - 5);
@@ -234,6 +232,26 @@ describe('Collecting stats', function() {
                 num_sessions: 4,
                 unique_users: 2,
                 avg_sessions_per_user: 2
+            };
+            expect(actual).to.eql(expected);
+            done();
+        });
+    });
+
+
+    it('forbids to get stats starting in the future', function(done) {
+        var data = {};
+        data[new Date()] = {1: [2, 2], 2: [2, 2]};
+        var date = new Date();
+        date.setFullYear(date.getFullYear() + 1);
+        data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
+        writeFilesForDates(data);
+
+        collectStats(date, null, null, function(actual) {
+            var expected = {
+                num_sessions: 0,
+                unique_users: 0,
+                avg_sessions_per_user: 0
             };
             expect(actual).to.eql(expected);
             done();

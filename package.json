@@ -26,6 +26,7 @@
     "node-fixtures": "0.0.1",
     "nodemon": "^1.10.0",
     "sinon": "^1.17.5",
+    "supertest": "^2.0.0",
     "yargs": "^4.8.1"
   }
 }

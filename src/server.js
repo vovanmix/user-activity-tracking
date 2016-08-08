@@ -10,4 +10,6 @@ var port = process.env.PORT || 8080;
 var initRouter = require('./app/router');
 initRouter(app);
 
-app.listen(port);
+var server = app.listen(port);
+
+module.exports = server;

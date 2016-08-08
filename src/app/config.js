@@ -6,6 +6,7 @@ config.root = path.resolve(__dirname + '/../../');
 
 switch (process.env.NODE_ENV) {
 case 'testing':
+    //todo: mock some modules to test them
     config.storage = config.root + '/mock-storage';
     break;
 case 'production':
