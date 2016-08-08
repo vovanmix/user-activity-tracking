@@ -239,6 +239,26 @@ describe('Collecting stats', function() {
     });
 
 
+    it('forbids to get stats starting in the future', function(done) {
+        var data = {};
+        data[new Date()] = {1: [2, 2], 2: [2, 2]};
+        var date = new Date();
+        date.setFullYear(date.getFullYear() + 1);
+        data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
+        writeFilesForDates(data);
+
+        collectStats(date, null, null, function(actual) {
+            var expected = {
+                num_sessions: 0,
+                unique_users: 0,
+                avg_sessions_per_user: 0
+            };
+            expect(actual).to.eql(expected);
+            done();
+        });
+    });
+
+
     it('works ok with many files for a big interval for all users',
         function(done) {
             var data = {};

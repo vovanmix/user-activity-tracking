@@ -3,9 +3,9 @@ var collectStats = require('../services/stat-service').collectStats;
 
 var getStats = function(req, res) {
 
-    var start_date = req.body.start_date;
-    var end_date = req.body.end_date;
-    var user_id = req.body.user_id;
+    var start_date = req.query.start_date;
+    var end_date = req.query.end_date;
+    var user_id = req.query.user_id;
 
     if (start_date) {
         start_date = new Date(start_date);

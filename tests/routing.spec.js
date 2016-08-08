@@ -125,7 +125,6 @@ describe('Routing', function() {
 
                 request(server)
                     .get(stats_url)
-                    .send()
                     .end(function(err, res) {
                         var json_response = res.body;
 
@@ -164,11 +163,8 @@ describe('Routing', function() {
             writeFilesForDates(data);
 
             request(server)
-                .get(stats_url)
-                .send({
-                    start_date: date5.toISOString(),
-                    end_date: date.toISOString()
-                })
+                .get(stats_url + '?start_date=' + date5.toISOString() +
+                    '&end_date=' + date.toISOString())
                 .end(function(err, res) {
                     var json_response = res.body;
 
@@ -188,10 +184,7 @@ describe('Routing', function() {
             writeFilesForDates(data);
 
             request(server)
-                .get(stats_url)
-                .send({
-                    user_id: 1
-                })
+                .get(stats_url + '?user_id=' + 1)
                 .end(function(err, res) {
                     var json_response = res.body;
 
