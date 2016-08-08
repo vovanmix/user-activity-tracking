@@ -22,6 +22,7 @@ forever start ./src/server.js
 - Avg log size per day: 40mb (utf-8)
 - Avg log size per month: 1.2gb
 - Total log size for 5 years: 72gb
+
 ##Option 1: 1 file per month
 - Files to read to get stats for 5 years: 60
 - Avg size of one file: 1.2gb
