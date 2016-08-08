@@ -32,6 +32,9 @@ var collectStats = function(date_from, date_to, user_id, cb) {
         date_to = date_to_max;
     }
 
+    //todo: make it storage agnostic, create a filesystem adapter
+    //todo: and SQL and NoSQL and redis and mock adapters
+    //todo: that can be interchangeable
     var result = null;
     for (var d = date_from; d <= date_to; d.setDate(d.getDate() + 1)) {
         result = getStatsForDate(new Date(d), user_id, result);

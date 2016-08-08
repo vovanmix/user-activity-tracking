@@ -120,6 +120,13 @@ describe('Collecting stats', function() {
         data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
         date = new Date();
         date.setFullYear(date.getFullYear() - 5);
+        date.setMonth(date.getMonth() + 2);
+        data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
+        date = new Date();
+        date.setFullYear(date.getFullYear() - 3);
+        data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
+        date = new Date();
+        date.setFullYear(date.getFullYear() - 5);
         date.setMonth(date.getMonth() + 1);
         data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
         writeFilesForDates(data);

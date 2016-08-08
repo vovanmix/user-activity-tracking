@@ -67,7 +67,7 @@ describe('Routing', function() {
             request(server)
                 .post(activity_url)
                 .send({user_id: 4, session_id: 1})
-                .end(function(err, res) {
+                .end(function(err) {
                     if (err) { throw err; }
 
                     expect(getCurrentLogName()).to.be
@@ -82,7 +82,7 @@ describe('Routing', function() {
             request(server)
                 .post(activity_url)
                 .send({user_id: 4, session_id: 1})
-                .end(function(err, res) {
+                .end(function(err) {
                     if (err) { throw err; }
 
                     var records = JSON.parse(
@@ -127,7 +127,7 @@ describe('Routing', function() {
                     .get(stats_url)
                     .send()
                     .end(function(err, res) {
-                        var json_response = JSON.parse(res.body);
+                        var json_response = res.body;
 
                         expect(json_response.num_sessions).to.equal(4);
                         expect(json_response.unique_users).to.equal(4);
@@ -152,6 +152,13 @@ describe('Routing', function() {
             data[date5] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
             date = new Date();
             date.setFullYear(date.getFullYear() - 5);
+            date.setMonth(date.getMonth() + 2);
+            data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
+            date = new Date();
+            date.setFullYear(date.getFullYear() - 3);
+            data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
+            date = new Date();
+            date.setFullYear(date.getFullYear() - 5);
             date.setMonth(date.getMonth() + 1);
             data[date] = {1: [2, 2], 2: [1, 2], 3: [1, 1]};
             writeFilesForDates(data);
@@ -163,7 +170,7 @@ describe('Routing', function() {
                     end_date: date.toISOString()
                 })
                 .end(function(err, res) {
-                    var json_response = JSON.parse(res.body);
+                    var json_response = res.body;
 
                     expect(json_response.num_sessions).to.equal(8);
                     expect(json_response.unique_users).to.equal(3);
@@ -186,7 +193,7 @@ describe('Routing', function() {
                     user_id: 1
                 })
                 .end(function(err, res) {
-                    var json_response = JSON.parse(res.body);
+                    var json_response = res.body;
 
                     expect(json_response.num_sessions).to.equal(2);
                     expect(json_response.unique_users).to.equal(1);

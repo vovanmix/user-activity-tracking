@@ -15,7 +15,7 @@ var trackActivity = function(req, res) {
 
     writeRecord(user_id, session_id, function() {
         res.json({
-            message: 'todo'
+            message: 'done'
         });
     });
 
