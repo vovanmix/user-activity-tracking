@@ -1,3 +1,5 @@
+![alt tag](https://codeship.com/projects/9064b140-407d-0134-17d5-1a3f66148744/status?branch=master)
+
 #Start server and test
 Start dev server:
 ```
